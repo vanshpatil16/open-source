@@ -40,9 +40,40 @@ def set_sidebar():
     with st.sidebar:
         st.subheader("API Configuration")
         
-        qdrant_host = st.text_input("Enter your Qdrant Host URL:", type="password")
-        qdrant_api_key = st.text_input("Enter your Qdrant API key:", type="password")
-        gemini_api_key = st.text_input("Enter your Gemini API key:", type="password")
+        # API Key Help Section
+        with st.expander("📚 Where to get API keys?", expanded=False):
+            st.markdown("### 🔑 Gemini API Key")
+            st.markdown("""
+            1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
+            2. Sign in with your Google account
+            3. Click **"Create API Key"**
+            4. Copy the generated API key
+            """)
+            st.markdown("**Direct Link:** https://aistudio.google.com/apikey")
+            
+            st.markdown("---")
+            
+            st.markdown("### 🗄️ Qdrant Host & API Key")
+            st.markdown("""
+            **Option 1: Qdrant Cloud (Recommended for beginners)**
+            1. Visit [Qdrant Cloud](https://cloud.qdrant.io/)
+            2. Sign up for a free account
+            3. Create a new cluster
+            4. Copy the **Cluster URL** (Host) and **API Key** from the dashboard
+            
+            **Option 2: Self-hosted Qdrant**
+            1. Install Qdrant locally or on your server
+            2. For local: Host URL is usually `http://localhost:6333`
+            3. API key is optional for local instances
+            """)
+            st.markdown("**Qdrant Cloud:** https://cloud.qdrant.io/")
+            st.markdown("**Qdrant Docs:** https://qdrant.tech/documentation/")
+        
+        st.markdown("---")
+        
+        qdrant_host = st.text_input("Enter your Qdrant Host URL:", type="password", help="e.g., https://your-cluster.qdrant.io or http://localhost:6333")
+        qdrant_api_key = st.text_input("Enter your Qdrant API key:", type="password", help="Required for Qdrant Cloud, optional for local instances")
+        gemini_api_key = st.text_input("Enter your Gemini API key:", type="password", help="Get it from https://aistudio.google.com/apikey")
 
         if st.button("Done"):
             if qdrant_host and qdrant_api_key and gemini_api_key:

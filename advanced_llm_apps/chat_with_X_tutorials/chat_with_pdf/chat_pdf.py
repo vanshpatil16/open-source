@@ -6,19 +6,21 @@ from embedchain import App
 def embedchain_bot(db_path, api_key):
     return App.from_config(
         config={
-            "llm": {"provider": "openai", "config": {"api_key": api_key}},
+            "llm": {"provider": "google", "config": {"api_key": api_key, "model": "gemini-pro"}},
             "vectordb": {"provider": "chroma", "config": {"dir": db_path}},
-            "embedder": {"provider": "openai", "config": {"api_key": api_key}},
+            "embedder": {"provider": "google", "config": {"api_key": api_key, "model": "models/text-embedding-004"}},
         }
     )
 
 st.title("Chat with PDF")
 
-openai_access_token = st.text_input("OpenAI API Key", type="password")
+# Default Gemini API key
+default_gemini_key = "AIzaSyAgRnhc4SWfs1acLBsD5Hc34pqFXiX6OPo"
+gemini_api_key = st.text_input("Gemini API Key", value=default_gemini_key, type="password")
 
-if openai_access_token:
+if gemini_api_key:
     db_path = tempfile.mkdtemp()
-    app = embedchain_bot(db_path, openai_access_token)
+    app = embedchain_bot(db_path, gemini_api_key)
 
     pdf_file = st.file_uploader("Upload a PDF file", type="pdf")
 
