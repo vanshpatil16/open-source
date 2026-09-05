@@ -1,0 +1,22 @@
+name: LeakGuard Security Audit
+
+on:
+  push:
+    branches: [ main, master, ci-cd ]
+  pull_request:
+    branches: [ main, master, ci-cd ]
+
+jobs:
+  leakguard-scan:
+    name: CodeGate Resource Leak Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Run LeakGuard Analysis
+        uses: vanshpatil16/VH26-DOMINATORS-5.0@ci-cd
+        with:
+          license-key: ${{ secrets.LEAKGUARD_LICENSE_KEY }}
+          ensemble: 'true'
